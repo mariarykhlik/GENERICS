@@ -2,6 +2,7 @@ package ru.netology.manager;
 
 import org.junit.jupiter.api.Test;
 import ru.netology.domain.Ticket;
+import ru.netology.domain.TicketByPriceAscComparator;
 import ru.netology.repository.Repository;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -71,6 +72,51 @@ public class ManagerTest {
         manager.addTicket(ticket5);
 
         Ticket[] actual = manager.findTickets("LED", "MOW");
+
+        Ticket[] expected = {};
+        assertArrayEquals(expected, actual);
+    }
+
+    @Test
+    public void shouldFindAll() {
+
+        manager.addTicket(ticket1);
+        manager.addTicket(ticket2);
+        manager.addTicket(ticket3);
+        manager.addTicket(ticket4);
+        manager.addTicket(ticket5);
+        manager.addTicket(ticket6);
+
+        Ticket[] actual = manager.findAll("LED", "AER", new TicketByPriceAscComparator());
+        Ticket[] expected = {ticket3, ticket4, ticket1, ticket6};
+        assertArrayEquals(expected, actual);
+    }
+
+    @Test
+    public void shouldFindNothingFrom() {
+
+        manager.addTicket(ticket1);
+        manager.addTicket(ticket2);
+        manager.addTicket(ticket3);
+        manager.addTicket(ticket4);
+        manager.addTicket(ticket5);
+
+        Ticket[] actual = manager.findAll("AER", "SVO", new TicketByPriceAscComparator());
+
+        Ticket[] expected = {};
+        assertArrayEquals(expected, actual);
+    }
+
+    @Test
+    public void shouldFindNothingTo() {
+
+        manager.addTicket(ticket1);
+        manager.addTicket(ticket2);
+        manager.addTicket(ticket3);
+        manager.addTicket(ticket4);
+        manager.addTicket(ticket5);
+
+        Ticket[] actual = manager.findAll("LED", "MOW", new TicketByPriceAscComparator());
 
         Ticket[] expected = {};
         assertArrayEquals(expected, actual);
